@@ -1,0 +1,28 @@
+{
+  "name": "bridge-rewrite",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CustomTea54/Bridge-Rewrite.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CustomTea54/Bridge-Rewrite/issues"
+  },
+  "homepage": "https://github.com/CustomTea54/Bridge-Rewrite#readme",
+  "keywords": [],
+  "description": "",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "discord.js": "^14.9.0",
+    "dotenv": "^16.0.3",
+    "ioredis": "^5.3.1",
+    "mongoose": "^7.0.3",
+    "request": "^2.88.2"
+  }
+}

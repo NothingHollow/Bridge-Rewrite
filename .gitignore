@@ -1,0 +1,10 @@
+.vscode
+node_modules
+package-lock.json
+.env
+datasets
+datasetsjson
+backup.js
+backupjson.js
+model
+playground.js

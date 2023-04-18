@@ -1,0 +1,40 @@
+{
+    "user": {
+        "basic": {
+            "price": null,
+            "transmission": true,
+            "priority_support": false,
+            "custom_embed_color": false,
+            "custom_rank": false,
+            "cooldown": 60000
+        },
+        "deluxe": {
+            "price": "2.99",
+            "transmission": true,
+            "priority_support": true,
+            "custom_embed_color": false,
+            "custom_rank": false,
+            "cooldown": 55000
+        },
+        "max": {
+            "price": "$4.99",
+            "transmission": true,
+            "priority_support": true,
+            "custom_embed_color": true,
+            "custom_rank": true,
+            "cooldown": 45000
+        }
+    },
+    "guild": {
+        "basic": {
+            "price": null,
+            "receiption": true,
+            "transmission": false
+        },
+        "premium": {
+            "price": null,
+            "receiption": true,
+            "transmission": true
+        }
+    }
+}
