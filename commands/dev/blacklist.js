@@ -1,8 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder } = require('discord.js');
-const userSchema = require('../models/User');
-const blacklistSchema = require('../models/Blacklist');
-const offenceStringList = require('../assets/offences.json');
+const userSchema = require('../../models/User');
+const blacklistSchema = require('../../models/Blacklist');
+const offenceStringList = require('../../assets/offences.json');
 const { v4: uuid } = require('uuid');
 
 module.exports = {

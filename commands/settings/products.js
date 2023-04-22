@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { ActionRowBuilder, StringSelectMenuBuilder, EmbedBuilder } = require('discord.js');
-const subscriptions = require('../assets/subscriptions.json');
-const { guild } = require('../config');
+const subscriptions = require('../../assets/subscriptions.json');
+const { guild } = require('../../config');
 
 module.exports = {
 	data: new SlashCommandBuilder()

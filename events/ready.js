@@ -1,7 +1,8 @@
 const chalk = require('chalk');
+const { Events } = require('discord.js')
 
 module.exports = {
-	name: 'ready',
+	name: Events.ClientReady,
 	on: true,
 	async execute(client) {
 		function border() {

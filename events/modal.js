@@ -1,9 +1,9 @@
-const { EmbedBuilder, WebhookClient } = require('discord.js');
+const { EmbedBuilder, WebhookClient, Events } = require('discord.js');
 const guildSchema = require('../models/Guild');
 const config = require('../config.js');
 
 module.exports = {
-    name: 'interactionCreate',
+    name: Events.InteractionCreate,
     on: true,
     async execute(interaction) {
         if (!interaction.isModalSubmit()) return;

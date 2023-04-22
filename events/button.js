@@ -1,9 +1,9 @@
-const { WebhookClient, ActionRowBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRow } = require('discord.js');
+const { WebhookClient, ActionRowBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRow, Events } = require('discord.js');
 const blacklistSchema = require('../models/Blacklist');
 const guildSchema = require('../models/Guild');
 
 module.exports = {
-	name: 'interactionCreate',
+	name: Events.InteractionCreate,
 	on: true,
 	async execute(interaction) {
 		if (!interaction.isButton()) return;

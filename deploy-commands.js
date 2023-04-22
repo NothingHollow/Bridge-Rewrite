@@ -1,48 +1,74 @@
-const fs = require('fs');
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord.js');
-const config = require('./config.json');
-const dotenv = require('dotenv');
-const chalk = require('chalk');
-// const { Client } = require('discord.js');
-// const client = new Client({ intents: 'GUILDS' });
+const { REST, Routes } = require('discord.js');
+const { clientId, guildId } = require('./config.json');
+const fs = require('node:fs');
+const path = require('node:path');
+const chalk = require('chalk')
 
-dotenv.config();
 
-const commands = [];
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+require('dotenv').config();
 
-for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	commands.push(command.data.toJSON());
+const token = process.env.TOKEN;
+
+const type = process.argv[2];
+let serverId;
+if (!type) return console.log('Arguments Expected: [--server id] or --global')
+if (type === '--server') {
+	if (!isNumeric(process.argv[3])) return console.log('more like no coz not server id ')
+	serverId = process.argv[3];
 }
 
-const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+const commands = [];
+// Grab all the command folders from the commands directory you created earlier
+const foldersPath = path.join(__dirname, 'commands');
+const commandFolders = fs.readdirSync(foldersPath);
 
+for (const folder of commandFolders) {
+	// Grab all the command files from the commands directory you created earlier
+	const commandsPath = path.join(foldersPath, folder);
+	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+	// Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
+	for (const file of commandFiles) {
+		const filePath = path.join(commandsPath, file);
+		const command = require(filePath);
+		if ('data' in command && 'execute' in command) {
+			commands.push(command.data.toJSON());
+		} else {
+			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+		}
+	}
+}
+
+// Construct and prepare an instance of the REST module
+const rest = new REST().setToken(token);
+
+// and deploy your commands!
 (async () => {
 	try {
-		await rest.put(
-			Routes.applicationCommands(config.botInfo.clientId),
-			{ body: commands },
-		);
+		console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
-		// if (!client.application?.owner) await client.application?.fetch();
+		// The put method is used to fully refresh all commands in the guild with the current set
 
-		// const command = await client.guilds.cache.get(guildId)?.commands.fetch('900016585643794442');
+		if (type === '--server') {
+			const data = await rest.put(
+				Routes.applicationGuildCommands(clientId, serverId),
+				{ body: commands },
+			);
+		}
+		else {
+			const data = await rest.put(
+				Routes.applicationGuildCommands(clientId),
+				{ body: commands },
+			);
+		}
 
-		// const permissions = [
-		// 	{
-		// 		id: '605061180599304212',
-		// 		type: 'USER',
-		// 		permission: true,
-		// 	},
-		// ];
-
-		// await command.permissions.set({ permissions });
-
-		console.log(chalk.hex('#FA8072')('Successfully'), chalk.hex('#FFA500')('registered'), chalk.hex('#FFFF00')('application'), chalk.hex('#0bda51')('commands'), chalk.hex('#00FFFF')('...'));
-	}
-	catch (error) {
+		// console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+		console.log(chalk.hex('#FA8072')('Successfully'), chalk.hex('#FFA500')('registered'), chalk.hex(data.length), chalk.hex('#FFFF00')('application'), chalk.hex('#0bda51')('commands'), chalk.hex('#00FFFF')('...'));
+	} catch (error) {
+		// And of course, make sure you catch and log any errors!
 		console.error(error);
 	}
 })();
+
+function isNumeric(str) {
+	return /^\d+$/.test(str);
+  }

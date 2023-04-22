@@ -1,10 +1,10 @@
 const config = require('../config.js');
 const botInfo = require('../config.json');
 const request = require('request');
-const { ActionRowBuilder, EmbedBuilder, WebhookClient } = require('discord.js');
+const { ActionRowBuilder, EmbedBuilder, WebhookClient, Events } = require('discord.js');
 
 module.exports = {
-	name: 'messageCreate',
+	name: Events.MessageCreate,
 	on: false,
 	async execute(message) {
 		if (message.author.id === message.client.user.id || message.author.bot || message.webhookId) return;
